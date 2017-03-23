@@ -14,6 +14,9 @@ gem 'jbuilder', '~> 2.5'
 gem 'rails_12factor', group: :production
 gem "rest-client"
 gem "addressable"
+gem 'savon', '~> 2.11.0'
+
+
 
 
 

@@ -16,35 +16,75 @@
 <div class="container" style="margin-top: 100px;">
 	
 
-<% if flash[:submitted] %>
+	<% if flash[:submitted] %>
 	<div class="alert alert-success" role="alert">申し込みが完了しました。</div>
 
-<% end %>
+	<% end %>
 
 	<h1>申込みをして下さい</h1>
 
-        <%=form_tag submit_form_path do %>
-          <fieldset>
-            <div class="clearfix">
-              <%=email_field_tag :username, nil, class:"form-control", placeholder: "user@tedroid.jp"  %>
-            </div><br />
+	<%=form_tag submit_form_path do %>
+	<fieldset>
+		<div class="clearfix">
+			<%=email_field_tag :username, nil, class:"form-control", placeholder: "user@tedroid.jp"  %>
+		</div><br />
 
-            <div class="clearfix">
-              <%=password_field_tag :password, nil, class:"form-control", placeholder: "パスワード"  %>
-            </div><br/>
+		<div class="clearfix">
+			<%=password_field_tag :password, nil, class:"form-control", placeholder: "パスワード"  %>
+		</div><br/>
 
-            <div class="clearfix">
-              <%=text_area_tag :booking, nil, class:"form-control", placeholder: "予約内容を入力して下さい"  %>
-            </div><br/>
+		<div class="clearfix">
+			<%=text_area_tag :booking, nil, class:"form-control", placeholder: "予約内容を入力して下さい"  %>
+		</div><br/>
 
-            <div class="login-actions">
-              <%=submit_tag "ログイン", class:"btn btn-primary"%>
-            </div>
+		<div class="login-actions">
+			<%=submit_tag "ログイン", class:"btn btn-primary"%>
+		</div>
 
-          </fieldset>
-        <% end %>
+	</fieldset>
+	<% end %>
 
 
+	<input type="text" id="cookie_name" />
 </div>
 
 
+
+
+
+
+<script type="text/javascript">
+	
+	$(function(){
+		$("#cookie_name").on("change",function(){
+			console.log( "getting cookie for: " + $(this).val() );
+			console.log( getCookie( $(this).val() ) );
+		})
+	});
+
+
+	function getCookie(){
+		console.log( "---" );
+	}
+
+
+	function getCookie(c_name){
+		var st="";
+		var ed="";
+		if(document.cookie.length>0){
+	        // クッキーの値を取り出す
+	        st=document.cookie.indexOf(c_name + "=");
+	        if(st!=-1){
+	        	st=st+c_name.length+1;
+	        	ed=document.cookie.indexOf(";",st);
+	        	if(ed==-1) ed=document.cookie.length;
+	            // 値をデコードして返す
+	            return unescape(document.cookie.substring(st,ed));
+	        }
+	    }
+	    return "";
+	}
+
+
+
+</script>
