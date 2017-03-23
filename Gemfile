@@ -12,6 +12,10 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 
 gem 'rails_12factor', group: :production
+gem "rest-client"
+gem "addressable"
+
+
 
 
 group :development, :test do

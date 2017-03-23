@@ -1,0 +1,50 @@
+
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+
+
+
+<div class="container" style="margin-top: 100px;">
+	
+
+<% if flash[:submitted] %>
+	<div class="alert alert-success" role="alert">申し込みが完了しました。</div>
+
+<% end %>
+
+	<h1>申込みをして下さい</h1>
+
+        <%=form_tag submit_form_path do %>
+          <fieldset>
+            <div class="clearfix">
+              <%=email_field_tag :username, nil, class:"form-control", placeholder: "user@tedroid.jp"  %>
+            </div><br />
+
+            <div class="clearfix">
+              <%=password_field_tag :password, nil, class:"form-control", placeholder: "パスワード"  %>
+            </div><br/>
+
+            <div class="clearfix">
+              <%=text_area_tag :booking, nil, class:"form-control", placeholder: "予約内容を入力して下さい"  %>
+            </div><br/>
+
+            <div class="login-actions">
+              <%=submit_tag "ログイン", class:"btn btn-primary"%>
+            </div>
+
+          </fieldset>
+        <% end %>
+
+
+</div>
+
+
