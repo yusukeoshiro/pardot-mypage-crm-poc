@@ -32,8 +32,8 @@ class FormController < ApplicationController
 			#check for same email contact
 			email = params["email"]
 			q = "SELECT Id FROM Contact where email='#{email}'"
-			p q
 			r = s.query(q)
+			contact_id = ""
 			if r.length > 0 
 				# exists
 				payload = {
@@ -45,6 +45,7 @@ class FormController < ApplicationController
 				}
 
 				s.update_record( "Contact", r[0]["Id"] , payload )
+				contact_id = r[0]["Id"]
 			else
 				# does not exist
 				payload = {
@@ -54,12 +55,19 @@ class FormController < ApplicationController
 					"accountid" => "00146000004aS1E",
 					"recordtypeid" => "01246000000rEL0"
 				}			
-				s.insert_record( "Contact", payload )
+				result = s.insert_record( "Contact", payload )
+				contact_id = result[:record_id]
 			end
 
-			
+		# insert a case
+			payload = {
+				"recordtypeid" => "01246000000rELG",
+				"Subject" => "予約リクエスト",
+				"contactid" => contact_id,
+				"description" => params["booking"] 
+			}
+			result = s.insert_record( "Case", payload )
 
-			
 
 
 		# insert to the queue
