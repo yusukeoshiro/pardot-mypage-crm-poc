@@ -6,8 +6,9 @@ Rails.application.routes.draw do
   root :to => 'form#form'
 
   get  '/form', :to => 'form#top',    :as => 'show_form'
+  get  '/form2', :to => 'form#dummy'
   post '/form', :to => 'form#submit', :as => 'submit_form'
-
+  post '/dummy', :to => 'form#dummy'
 
 
 

@@ -26,7 +26,7 @@
 	<%=form_tag submit_form_path do %>
 	<fieldset>
 		<div class="clearfix">
-			<%=email_field_tag :username, nil, class:"form-control", placeholder: "user@tedroid.jp"  %>
+			<%=email_field_tag :email, nil, class:"form-control", placeholder: "user@tedroid.jp"  %>
 		</div><br />
 
 		<div class="clearfix">
@@ -45,7 +45,7 @@
 	<% end %>
 
 
-	<input type="text" id="cookie_name" />
+	VisitorID: <span id="visitor_id"></span>
 </div>
 
 
@@ -56,10 +56,7 @@
 <script type="text/javascript">
 	
 	$(function(){
-		$("#cookie_name").on("change",function(){
-			console.log( "getting cookie for: " + $(this).val() );
-			console.log( getCookie( $(this).val() ) );
-		})
+		$("#visitor_id").html(getCookie("visitor_id337841"));
 	});
 
 

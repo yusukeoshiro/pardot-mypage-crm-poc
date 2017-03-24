@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.1'
+ruby '2.3.0'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.0'
@@ -15,7 +15,6 @@ gem 'rails_12factor', group: :production
 gem "rest-client"
 gem "addressable"
 gem 'savon', '~> 2.11.0'
-
 
 
 
