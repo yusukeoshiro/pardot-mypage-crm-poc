@@ -65,6 +65,15 @@ class PardotWrapper
 		response = JSON.parse(res.body)
 	end
 
+	def form_handler(handler_url, email)
+
+		url = URI.parse(handler_url)
+		req = Net::HTTP::Post.new(url.path)
+		req["Content-Type"] = "application/x-www-form-urlencoded"
+		req.set_form_data({'email'=> email}, ';')
+		res = Net::HTTP.new(url.host, url.port).start {|http| http.request(req) }
+
+	end
 
 
 end

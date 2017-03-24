@@ -6,10 +6,18 @@ task :run_schedule => :environment do
 
 		ps = p.find_prospect_by_email(item.email)
 		if ps.present?
-			p.assign_visitor_to_prospect_by_id( item.visitor_id, ps["id"] )	
+			#assign visitor to prospect
+				p.assign_visitor_to_prospect_by_id( item.visitor_id, ps["id"] )	
+
+			#do form handler
+				p.form_handler( "http://pi.oshiro1.com/l/337841/2017-03-23/k4q1z", item.email )
+
+			#delete
+				item.delete
+
 		end
 
-		item.delete
+		
 	end
 
 end

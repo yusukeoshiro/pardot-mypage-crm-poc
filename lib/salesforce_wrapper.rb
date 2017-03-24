@@ -1,7 +1,7 @@
 class SforceWrapper
 	attr_accessor :server_url, :session_id
 
-	def initialize(username, password)
+	def initialize(username=ENV["SFDC_EMAIL"], password=ENV["SFDC_PASSWORD"])
 		path = Rails.root + "config/salesforce_partner_wsdl.xml"
 		client = Savon.client(wsdl: path)
 		response = client.call(:login, message: { "username"=>username, "password"=>password })
@@ -9,6 +9,8 @@ class SforceWrapper
 		self.session_id = response[:login_response][:result][:session_id]
 		self.server_url = "https://"+URI.parse( response[:login_response][:result][:server_url] ).host
 	end
+
+
 
 	def insert_record( sobject, payload )
 			require "pp"
@@ -69,6 +71,34 @@ class SforceWrapper
 			return nil
 		end
 	end
+
+	def search_by_id( sobject, record_id )
+		begin
+			
+		rescue Exception => e
+			return nil
+		end
+	end
+
+	def query(q)
+		begin
+			q = URI.encode_www_form_component(q)
+			p q
+			url = "#{self.server_url}/services/data/v39.0/query?q=#{q}"
+			uri = URI.parse(url)
+			https = Net::HTTP.new(uri.host, uri.port)
+			https.use_ssl = true
+			req = Net::HTTP::Get.new(uri.request_uri)
+			req["Authorization"] = "Bearer #{self.session_id}" 
+			res = https.request(req)
+			p "-----------response"
+			pp res.body
+			return JSON.parse(res.body)["records"]
+		rescue Exception => e
+			return nil
+		end
+	end
+
 
 	def update_record( sobject, record_id, payload )
 		begin

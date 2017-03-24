@@ -28,16 +28,38 @@ class FormController < ApplicationController
 	def submit
 
 		# upsert to salesforce
-			s = SforceWrapper.new(ENV["SFDC_EMAIL"],ENV["SFDC_PASSWORD"])
+			s = SforceWrapper.new
+			#check for same email contact
+			email = params["email"]
+			q = "SELECT Id FROM Contact where email='#{email}'"
+			p q
+			r = s.query(q)
+			if r.length > 0 
+				# exists
+				payload = {
+					"LastName" => params["last_name"],
+					"FirstName" => params["first_name"],
+					"email" => params["email"],
+					"accountid" => "00146000004aS1E",
+					"recordtypeid" => "01246000000rEL0"					
+				}
+
+				s.update_record( "Contact", r[0]["Id"] , payload )
+			else
+				# does not exist
+				payload = {
+					"LastName" => params["last_name"],
+					"FirstName" => params["first_name"],
+					"email" => params["email"],
+					"accountid" => "00146000004aS1E",
+					"recordtypeid" => "01246000000rEL0"
+				}			
+				s.insert_record( "Contact", payload )
+			end
+
 			
-			payload = {
-				"LastName" => params["last_name"],
-				"FirstName" => params["first_name"],
-				"email" => params["email"],
-				"accountid" => "00146000004aS1E",
-				"recordtypeid" => "01246000000rEL0"
-			}
-			s.insert_record( "Contact", payload )
+
+			
 
 
 		# insert to the queue
