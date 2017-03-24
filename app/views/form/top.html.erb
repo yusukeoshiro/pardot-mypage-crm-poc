@@ -22,11 +22,12 @@
 	<% end %>
 
 	<h1>申込みをして下さい</h1>
+	<p>あなたのVisitor IDは: <span id="visitor_id"></span></p>
 
 	<%=form_tag submit_form_path do %>
 	<fieldset>
 		<div class="clearfix">
-			<%=email_field_tag :email, nil, class:"form-control", placeholder: "user@tedroid.jp"  %>
+			<%=email_field_tag :email, nil, class:"form-control", id: "input_email"  %>
 		</div><br />
 
 		<div class="clearfix">
@@ -45,10 +46,7 @@
 	<% end %>
 
 
-	VisitorID: <span id="visitor_id"></span>
 </div>
-
-
 
 
 
@@ -57,13 +55,8 @@
 	
 	$(function(){
 		$("#visitor_id").html(getCookie("visitor_id337841"));
+
 	});
-
-
-	function getCookie(){
-		console.log( "---" );
-	}
-
 
 	function getCookie(c_name){
 		var st="";

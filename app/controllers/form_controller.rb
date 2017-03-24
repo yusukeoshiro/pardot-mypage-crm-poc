@@ -26,20 +26,24 @@ class FormController < ApplicationController
 
 
 	def submit
+
+		# todo upsert to salesforce
+		
+
 		
 		if params["email"]
-			list_cookie = []		
+			visitor_id = ""
 			cookies.each do |cookie|
-				list_cookie.push(cookie)
+				visitor_id = cookie[1] if cookie[0] == ENV["PARDOT_VISITOR_ID_KEY"]				
 			end
 
-			new_item = QueuedItem.new
-			new_item.email = params["email"]
-			new_item.cookie = list_cookie.to_json
-			new_item.save
-
-
-			flash[:submitted] = true
+			if visitor_id 
+				new_item = QueuedItem.new
+				new_item.email = params["email"]
+				new_item.visitor_id = visitor_id
+				new_item.save
+				flash[:submitted] = true
+			end
 		end
 		
 		redirect_to show_form_path
