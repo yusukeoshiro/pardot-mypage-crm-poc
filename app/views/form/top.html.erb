@@ -27,7 +27,15 @@
 	<%=form_tag submit_form_path do %>
 	<fieldset>
 		<div class="clearfix">
-			<%=email_field_tag :email, nil, class:"form-control", id: "input_email"  %>
+			<%=text_field_tag :last_name, nil, class:"form-control", placeholder: "山田"  %>
+		</div><br />
+
+		<div class="clearfix">
+			<%=text_field_tag :first_name, nil, class:"form-control", placeholder: "太郎"  %>
+		</div><br />
+
+		<div class="clearfix">
+			<%=email_field_tag :email, nil, class:"form-control", id: "input_email", placeholder: "taro@yamada.com"  %>
 		</div><br />
 
 		<div class="clearfix">
