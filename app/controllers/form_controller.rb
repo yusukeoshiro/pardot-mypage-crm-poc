@@ -66,10 +66,10 @@ class FormController < ApplicationController
 				"description" => params["booking"] 
 			}
 			result = s.insert_record( "Case", payload )
+			flash[:submitted] = true
 
 
-
-		# insert to the queue
+		# insert to the queue if possible
 			if params["email"]
 				visitor_id = ""
 				cookies.each do |cookie|
@@ -80,8 +80,7 @@ class FormController < ApplicationController
 					new_item = QueuedItem.new
 					new_item.email = params["email"]
 					new_item.visitor_id = visitor_id
-					new_item.save
-					flash[:submitted] = true
+					new_item.save					
 				end
 			end
 			
