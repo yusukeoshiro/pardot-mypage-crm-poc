@@ -13,11 +13,14 @@ task :run_schedule => :environment do
 				p.form_handler( "http://pi.oshiro1.com/l/337841/2017-03-23/k4q1z", item.email )
 
 			#update heroku connect table
-				c = Contact.find_by_email( item.email )
-				if c.present? && !(c.instance_of?(Array))
+				begin
+					c = Contact.find_by_email( item.email )
 					c.mypage_last_pardot_visitor_id__c = item.visitor_id
-					c.save
+					c.save					
+				rescue Exception => e
+					
 				end
+				
 
 			#delete
 				item.delete
