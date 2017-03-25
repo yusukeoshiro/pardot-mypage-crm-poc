@@ -14,7 +14,7 @@ task :run_schedule => :environment do
 
 			#update heroku connect table
 				c = Contact.find_by_email( item.email )
-				if c.length == 1
+				if c.present? && !(c.instance_of?(Array))
 					c.mypage_last_pardot_visitor_id__c = item.visitor_id
 					c.save
 				end
