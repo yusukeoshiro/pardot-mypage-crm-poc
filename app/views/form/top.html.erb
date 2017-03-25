@@ -38,13 +38,17 @@
 			<%=email_field_tag :email, nil, class:"form-control", id: "input_email", placeholder: "taro@yamada.com"  %>
 		</div><br />
 
-		<div class="clearfix">
-			<%=password_field_tag :password, nil, class:"form-control", placeholder: "パスワード"  %>
-		</div><br/>
-
+		
 		<div class="clearfix">
 			<%=text_area_tag :booking, nil, class:"form-control", placeholder: "予約内容を入力して下さい"  %>
 		</div><br/>
+
+		<div class="clearfix">
+			<small>マイページに申込の場合は記載</small>
+			<%=password_field_tag :password, nil, class:"form-control", placeholder: "パスワード"  %>
+		</div><br/>
+
+
 
 		<div class="login-actions">
 			<%=submit_tag "ログイン", class:"btn btn-primary"%>

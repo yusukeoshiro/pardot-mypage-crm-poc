@@ -34,27 +34,26 @@ class FormController < ApplicationController
 			q = "SELECT Id FROM Contact where email='#{email}'"
 			r = s.query(q)
 			contact_id = ""
-			if r.length > 0 
-				# exists
-				payload = {
-					"LastName" => params["last_name"],
-					"FirstName" => params["first_name"],
-					"email" => params["email"],
-					"accountid" => "00146000004aS1E",
-					"recordtypeid" => "01246000000rEL0"					
-				}
+			pw =  Digest::SHA1.hexdigest params["password"] if params["password"].present?
+			verif_code = SecureRandom.hex(32) if params["password"].present?
+			payload = {
+				"LastName" => params["last_name"],
+				"FirstName" => params["first_name"],
+				"email" => params["email"],
+				"accountid" => "00146000004aS1E",
+				"recordtypeid" => "01246000000rEL0",
+				"mypage_password__c" => pw,
+				"my_page_applied__c" => pw.present?,
+				"mypage_email_verification_code__c" => verif_code			
 
+			}
+
+			if r.length > 0 
+				# exists				
 				s.update_record( "Contact", r[0]["Id"] , payload )
 				contact_id = r[0]["Id"]
 			else
-				# does not exist
-				payload = {
-					"LastName" => params["last_name"],
-					"FirstName" => params["first_name"],
-					"email" => params["email"],
-					"accountid" => "00146000004aS1E",
-					"recordtypeid" => "01246000000rEL0"
-				}			
+				# does not exist							
 				result = s.insert_record( "Contact", payload )
 				contact_id = result[:record_id]
 			end
@@ -88,5 +87,7 @@ class FormController < ApplicationController
 			
 		redirect_to show_form_path
 	end
+
+
 
 end
