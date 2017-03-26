@@ -1,16 +1,17 @@
 task :run_schedule => :environment do
 	Rails.logger.debug "....starting scheduler.rake"
-	p = PardotWrapper.new
+	pardot = PardotWrapper.new
 
 	QueuedItem.remaining.each do |item|
 
 
 
 			# assign visitor to prespect
+			p "item.assignment_complete: #{item.assignment_complete}"
 			if !item.assignment_complete
-				ps = p.find_prospect_by_email(item.email)
+				ps = pardot.find_prospect_by_email(item.email)
 				if ps.present?
-					if p.assign_visitor_to_prospect_by_id( item.visitor_id, ps["id"] )	
+					if pardot.assign_visitor_to_prospect_by_id( item.visitor_id, ps["id"] )	
 						item.assignment_complete = true
 						item.save
 						pp item
@@ -24,10 +25,11 @@ task :run_schedule => :environment do
 			end
 
 			# simulate form handler
+			p "item.form_handler_complete: #{item.form_handler_complete}"
 			if !item.form_handler_complete 
-				ps = p.find_prospect_by_email(item.email)
+				ps = pardot.find_prospect_by_email(item.email)
 				if ps.present?
-					if p.form_handler( "http://pi.oshiro1.com/l/337841/2017-03-23/k4q1z", item.email, item.visitor_id )
+					if pardot.form_handler( "http://pi.oshiro1.com/l/337841/2017-03-23/k4q1z", item.email, item.visitor_id )
 						item.form_handler_complete = true
 						item.save
 						p "form handler simulation complete!"
@@ -41,6 +43,7 @@ task :run_schedule => :environment do
 			end
 
 			# update heroku connect table
+			p "item.contact_update_complete: #{item.contact_update_complete}"
 			if !item.contact_update_complete
 				c = Contact.find_by_email( item.email )
 				if c.present?						
