@@ -33,6 +33,7 @@ class PardotWrapper
 	end
 
 	def find_prospect_by_email( email, user_key=ENV["PARDOT_KEY"] )
+		email = URI.encode_www_form_component(email)
 
 		uri = URI.parse("https://pi.pardot.com/api/prospect/version/4/do/read/email/#{email}") 
 		param = "api_key=#{self.api_key}&user_key=#{user_key}&email=#{email}&format=json"		
@@ -66,7 +67,7 @@ class PardotWrapper
 	end
 
 	def form_handler(handler_url, email)
-
+		email = URI.encode_www_form_component(email)
 		url = URI.parse(handler_url)
 		req = Net::HTTP::Post.new(url.path)
 		req["Content-Type"] = "application/x-www-form-urlencoded"
