@@ -10,16 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170324071444) do
+ActiveRecord::Schema.define(version: 20170326053842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "queued_items", force: :cascade do |t|
     t.string   "email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.string   "visitor_id"
+    t.boolean  "finished"
+    t.boolean  "assignment_complete"
+    t.boolean  "form_handler_complete"
+    t.boolean  "contact_update_complete"
   end
 
 end
