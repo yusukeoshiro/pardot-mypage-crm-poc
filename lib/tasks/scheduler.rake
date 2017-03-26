@@ -2,13 +2,16 @@ task :run_schedule => :environment do
 	Rails.logger.debug "....starting scheduler.rake"
 	p = PardotWrapper.new
 
-
 	QueuedItem.remaining.each do |item|
+
+			prospect_exists = false # remembers if prospect was found
+
 
 			# assign visitor to prespect
 			if !item.assignment_complete
 				ps = p.find_prospect_by_email(item.email)
 				if ps.present?
+					prospect_exists = true
 					if p.assign_visitor_to_prospect_by_id( item.visitor_id, ps["id"] )	
 						item.assignment_complete = true
 						item.save
@@ -18,19 +21,24 @@ task :run_schedule => :environment do
 						p "visitor assignment failed..."
 					end
 				else
-					p "skipping #{item.email}. Not found in pardot"
+					p "skipping assignment for #{item.email}. Not found in pardot"
 				end
 			end
 
 			# simulate form handler
 			if !item.form_handler_complete 
-				if p.form_handler( "http://pi.oshiro1.com/l/337841/2017-03-23/k4q1z", item.email, item.visitor_id )
-					item.form_handler_complete = true
-					item.save
-					p "form handler simulation complete!"
+				if prospect_exists
+					if p.form_handler( "http://pi.oshiro1.com/l/337841/2017-03-23/k4q1z", item.email, item.visitor_id )
+						item.form_handler_complete = true
+						item.save
+						p "form handler simulation complete!"
+					else
+						p "form handler simulation failed!"
+					end
 				else
-					p "form handler simulation failed!"
+					p "skipping form handler for #{item.email}. Not found in pardot"
 				end
+				
 			end
 
 			# update heroku connect table
@@ -53,21 +61,7 @@ task :run_schedule => :environment do
 				item.finished = true
 				item.save
 			end
-
-
-		begin
-
-		rescue Exception => e
-			p "error occured in run_schedule"
-			p e.message
-			pp e
-		end
-
-
-
-		
 	end
-
 end
 
 
