@@ -77,11 +77,10 @@ class PardotWrapper
 		url = URI.parse(handler_url)
 		req = Net::HTTP::Post.new(url.path)
 		req["Content-Type"] = "application/x-www-form-urlencoded"
-		req["Cookie"] = "#{ENV["PARDOT_VISITOR_ID_KEY"]}=#{visitor_id}"
-		p req["Cookie"]
+		req["Cookie"] = "#{ENV["PARDOT_VISITOR_ID_KEY"]}=#{visitor_id}"		
 		req.set_form_data({'email'=> email}, ';')
 		res = Net::HTTP.new(url.host, url.port).start {|http| http.request(req) }
-		p res.body
+		raise res.body if res.code != "200"
 		return true
 	end
 
