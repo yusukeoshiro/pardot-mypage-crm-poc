@@ -18,13 +18,14 @@ task :run_schedule => :environment do
 					c.mypage_last_pardot_visitor_id__c = item.visitor_id
 					c.save					
 				rescue Exception => e
-					
+					p e.message
 				end
 				
 
 			#delete
 				item.delete
-
+		else
+			p "skipping #{item.email}. Not found in pardot"
 		end
 
 		
