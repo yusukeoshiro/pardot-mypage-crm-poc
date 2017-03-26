@@ -1,0 +1,20 @@
+
+<div class="container">
+	
+
+	<% if @is_error %>
+		
+		<div class="alert alert-danger" role="alert">失敗しました。時間をおいてまた試して下さい。</div>
+
+	<% end %>
+
+
+
+	<% if @is_success %>
+		
+		<div class="alert alert-success" role="alert">成功しました。</div>
+
+	<% end %>
+	
+</div>
+

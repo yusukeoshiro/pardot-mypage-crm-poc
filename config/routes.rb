@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   post '/form', :to => 'form#submit', :as => 'submit_form'
   post '/dummy', :to => 'form#dummy'
 
-
+  get '/verify/:verif_code', :to => 'form#verify'
 
 
 end

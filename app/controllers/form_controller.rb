@@ -7,6 +7,44 @@ class FormController < ApplicationController
 	end
 
 
+	def verify
+		@is_error = false
+		@is_success = false
+
+			if params[:verif_code].present?
+				# update user
+					s = SforceWrapper.new
+					r = s.query("SELECT Id FROM Contact WHERE mypage_email_verification_code__c = '#{params[:verif_code]}'")
+					pp r
+					contact_id = ""
+					if r.length > 0
+						contact_id = r[0]["Id"]
+						payload = {
+							"mypage_email_verification_code__c" => nil,
+							"mypage_email_verified__c" => true
+						}
+						s.update_record( "Contact", r[0]["Id"] , payload )
+						@is_success = true
+
+					else
+						@is_error = true
+					end
+			else
+				@is_error = true
+			end
+
+		begin
+
+			
+		rescue Exception => e
+			@is_error = true			
+		end
+
+
+
+	end
+
+
 	def dummy
 		p request.headers["Content-Type"]
 		p request.headers["cookie"]
