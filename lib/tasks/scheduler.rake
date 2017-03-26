@@ -4,14 +4,12 @@ task :run_schedule => :environment do
 
 	QueuedItem.remaining.each do |item|
 
-			prospect_exists = false # remembers if prospect was found
 
 
 			# assign visitor to prespect
 			if !item.assignment_complete
 				ps = p.find_prospect_by_email(item.email)
 				if ps.present?
-					prospect_exists = true
 					if p.assign_visitor_to_prospect_by_id( item.visitor_id, ps["id"] )	
 						item.assignment_complete = true
 						item.save
@@ -27,7 +25,8 @@ task :run_schedule => :environment do
 
 			# simulate form handler
 			if !item.form_handler_complete 
-				if prospect_exists
+				ps = p.find_prospect_by_email(item.email)
+				if ps.present?
 					if p.form_handler( "http://pi.oshiro1.com/l/337841/2017-03-23/k4q1z", item.email, item.visitor_id )
 						item.form_handler_complete = true
 						item.save
