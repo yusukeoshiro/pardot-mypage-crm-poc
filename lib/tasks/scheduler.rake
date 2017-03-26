@@ -16,7 +16,8 @@ task :run_schedule => :environment do
 				begin
 					c = Contact.find_by_email( item.email )
 					c.mypage_last_pardot_visitor_id__c = item.visitor_id
-					c.save					
+					c.save
+					p "successfully associated #{item.email} to a prospect..."
 				rescue Exception => e
 					p e.message
 				end
