@@ -7,8 +7,9 @@ class QueuedItem < ApplicationRecord
 		self.assignment_complete     = false if self.assignment_complete.nil?
 		self.form_handler_complete   = false if self.form_handler_complete.nil?
 		self.contact_update_complete = false if self.contact_update_complete.nil?
-		
+		self.retry_count             = 0     if self.retry_count.nil? 		
 	end
+
 
 	def check_complete
 		return self.assignment_complete && self.form_handler_complete && self.contact_update_complete			
