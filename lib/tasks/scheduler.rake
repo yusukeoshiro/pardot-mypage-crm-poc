@@ -4,7 +4,8 @@ task :run_schedule => :environment do
 
 	QueuedItem.remaining.each do |item|
 
-
+			item.retry_count = item.retry_count + 1
+			item.save
 
 			# assign visitor to prespect
 			p "item.assignment_complete: #{item.assignment_complete}"
@@ -59,10 +60,13 @@ task :run_schedule => :environment do
 			end
 
 			# check all three and check if its all finished
-			if item.check_complete
+			if item.check_complete  || (item.retry_count > 10)
 				item.finished = true
 				item.save
 			end
+
+
+
 	end
 end
 
