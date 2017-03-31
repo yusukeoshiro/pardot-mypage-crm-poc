@@ -108,13 +108,13 @@ class FormController < ApplicationController
 
 
 		# insert to the queue if possible
-			if params["email"]
+			if params["email"].present?
 				visitor_id = ""
 				cookies.each do |cookie|
 					visitor_id = cookie[1] if cookie[0] == ENV["PARDOT_VISITOR_ID_KEY"]				
 				end
 
-				if visitor_id 
+				if visitor_id.present? 
 					new_item = QueuedItem.new
 					new_item.email = params["email"]
 					new_item.visitor_id = visitor_id

@@ -1,6 +1,8 @@
 class QueuedItem < ApplicationRecord
 	scope :remaining, -> {where(finished: false)}
 	after_initialize :set_default
+	validates :visitor_id, presence: true
+	validates :email, presence: true
 
 	def set_default
 		self.finished                = false if self.finished.nil?
